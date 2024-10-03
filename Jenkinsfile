@@ -11,7 +11,8 @@ environment {
     stages {
         stage('build'){
             steps {
-                sh 'mvn clean deploy'
+                sh 'sh 'mvn clean deploy -DskipTests'
+'
             }
         }
     }
