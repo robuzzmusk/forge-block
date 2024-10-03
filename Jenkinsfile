@@ -9,6 +9,11 @@ environment {
 }    
 
     stages {
+        stage('Clone-code') {
+           steps {
+               git branch: 'main', credentialsId: 'github-cred', url: 'https://github.com/robuzzmusk/forge-block.git'
+           }
+        }
         stage('build'){
             steps {
                 sh "mvn clean deploy"
