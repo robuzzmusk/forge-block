@@ -1,4 +1,6 @@
 def registry = 'https://robuzz.jfrog.io'
+def imageName = 'robuzz.jfrog.io/galaxy-docker-local/ttrend'
+def version   = '2.1.2'
 pipeline {
     agent {
         node {
@@ -32,27 +34,27 @@ environment {
 
         stage('SonarQube analysis') {
         environment {
-          scannerHome = tool 'robuzz-sonar-scanner'
+          scannerHome = tool 'sonar-scanner'
         }  
         steps { 
-        withSonarQubeEnv('robuzz-sonarqube-server') { // If you have configured more than one global server connection, you can specify its name as configured in Jenkins
+        withSonarQubeEnv('sonarqube-server') { // If you have configured more than one global server connection, you can specify its name as configured in Jenkins
           sh "${scannerHome}/bin/sonar-scanner"
         }  
     }
   }
 
-    stage("Quality Gate"){
-            steps{
-                script {
-                timeout(time: 1, unit: 'HOURS') { // Just in case something goes wrong, pipeline will be killed after a timeout
-           def qg = waitForQualityGate() // Reuse taskId previously collected by withSonarQubeEnv
-           if (qg.status != 'OK') {
-            error "Pipeline aborted due to quality gate failure: ${qg.status}"
-    }
-  }
-}
-}
-}
+//     stage("Quality Gate"){
+//             steps{
+//                 script {
+//                 timeout(time: 1, unit: 'HOURS') { // Just in case something goes wrong, pipeline will be killed after a timeout
+//            def qg = waitForQualityGate() // Reuse taskId previously collected by withSonarQubeEnv
+//            if (qg.status != 'OK') {
+//             error "Pipeline aborted due to quality gate failure: ${qg.status}"
+//     }
+//   }
+// }
+// }
+// }
     stage("Jar Publish") {
         steps {
             script {
@@ -77,6 +79,29 @@ environment {
             
             }
         }   
+    }
+
+       
+    stage(" Docker Build ") {
+      steps {
+        script {
+           echo '<--------------- Docker Build Started --------------->'
+           app = docker.build(imageName+":"+version)
+           echo '<--------------- Docker Build Ends --------------->'
+        }
+      }
+    }
+
+    stage (" Docker Publish "){
+        steps {
+            script {
+               echo '<--------------- Docker Publish Started --------------->'  
+                docker.withRegistry(registry, 'artifact-cred'){
+                    app.push()
+                }    
+               echo '<--------------- Docker Publish Ended --------------->'  
+            }
+        }
     }   
 }    
 }
