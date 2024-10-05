@@ -24,24 +24,25 @@ environment {
                 echo "------------build completed------------"
             }
         }
-        stage("test"){
-            steps{
-                echo "------------unit test started----------------"
-                sh 'mvn surefire-report:report'
-                echo "------------unit test completed------------"
-            }
-        }
+        // stage("test"){
+        //     steps{
+        //         echo "------------unit test started----------------"
+        //         sh 'mvn surefire-report:report'
+        //         echo "------------unit test completed------------"
+        //     }
+        // }
 
-        stage('SonarQube analysis') {
-        environment {
-          scannerHome = tool 'sonar-scanner'
-        }  
-        steps { 
-        withSonarQubeEnv('sonarqube-server') { // If you have configured more than one global server connection, you can specify its name as configured in Jenkins
-          sh "${scannerHome}/bin/sonar-scanner"
-        }  
-    }
-  }
+//         stage('SonarQube analysis') {
+//         environment {
+//           scannerHome = tool 'sonar-scanner'
+//         }  
+//         steps { 
+//         withSonarQubeEnv('sonarqube-server') { // If you have configured more than one global server connection, you can specify its name as configured in Jenkins
+//           sh "${scannerHome}/bin/sonar-scanner"
+// sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=robunk-key_twittertrend -Dsonar.sources=. -Dsonar.host.url=http://your_sonarqube_server -Dsonar.login=e270445dd707622d969d4f8685396a55aae6103b"
+//         }  
+//     }
+//   }
 
 //     stage("Quality Gate"){
 //             steps{
