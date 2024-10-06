@@ -15,8 +15,6 @@ Docker Artifactory[https://robuzz.jfrog.io/ui/repos/tree/General/galaxy-docker-l
 ![Docker build-published-in-Jfrog-Artifactory](https://github.com/user-attachments/assets/eeee76ab-9bb6-421e-9fb2-53200ce68287)
 
 
-![Docker build-published-in-Jfrog-Artifactory](https://github.com/user-attachments/assets/3e1716ef-49fe-4e64-b123-0c84d8611314)
-
 Docker-stage-successful-jenkins-Console Output:
 [Docker-stage-successful-jenkins-Console Output.txt](https://github.com/user-attachments/files/17270735/Docker-stage-successful-jenkins-Console.Output.txt)
 
